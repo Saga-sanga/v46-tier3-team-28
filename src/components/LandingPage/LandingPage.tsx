@@ -1,4 +1,3 @@
-import Feed from '@/components/Feed/Feed';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,13 +15,13 @@ const LandingPage = () => {
       <div className="z-[1] h-fit max-w-5xl flex flex-col gap-5 px-[5%]">
         <h1 className="text-center font-extrabold text-3xl md:text-5xl text-gray-300 tracking-wider leading-tight drop-shadow-lg">
           Discover the easiest way to save and organize your{' '}
-          <span className="text-[#633CFF] drop-shadow-lg">favorite</span> URLs with our intuitive bookmarking app
+          <span className="text-primary drop-shadow-lg">favorite</span> URLs with our intuitive bookmarking app
         </h1>
         <p className="text-center font-semibold text-xs md:text-lg text-gray-200 mb-10 drop-shadow-lg">
           Capture, Categorize, and Share with Ease
         </p>
         <Link
-          className="h-fit w-fit py-4 px-8 text-white font-bold text-md bg-[#633CFF] rounded-md self-center shadow-lg hover:bg-slate-50 hover:text-[#633CFF] transition-all duration-500"
+          className="h-fit w-fit py-4 px-8 text-white font-bold text-md bg-primary rounded-md self-center shadow-lg hover:bg-slate-50 hover:text-primary transition-all duration-500"
           href="/register"
         >
           Get Started

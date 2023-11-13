@@ -1,6 +1,7 @@
 'use client';
 import { signIn } from 'next-auth/react';
 import { LuLoader2 } from 'react-icons/lu';
+import { Button } from '../ui/button';
 
 type OAuthButtonsProps = {
   loading: boolean;
@@ -10,8 +11,9 @@ type OAuthButtonsProps = {
 export default function OAuthButtons({ loading, setLoading }: OAuthButtonsProps) {
   return (
     <>
-      <button
-        className="w-full rounded-md border-[1px] border-[#633CFF] py-4 flex flex-row items-center justify-center gap-2"
+      <Button
+        variant="outline"
+        className="w-full h-14 rounded-md border border-primary py-4 flex flex-row items-center justify-center gap-2"
         disabled={loading}
         onClick={(e) => {
           e.preventDefault();
@@ -39,9 +41,10 @@ export default function OAuthButtons({ loading, setLoading }: OAuthButtonsProps)
           </svg>
         )}
         <h6 className="font-medium text-black"> Github</h6>
-      </button>
-      <button
-        className="w-full rounded-md border-[1px] border-[#633CFF] py-4 flex flex-row items-center justify-center gap-2"
+      </Button>
+      <Button
+        variant="outline"
+        className="w-full h-14 rounded-md border border-primary py-4 flex flex-row items-center justify-center gap-2"
         disabled={loading}
         onClick={(e) => {
           e.preventDefault();
@@ -72,7 +75,7 @@ export default function OAuthButtons({ loading, setLoading }: OAuthButtonsProps)
           </svg>
         )}
         <h6 className="font-medium text-black">Google</h6>
-      </button>
+      </Button>
     </>
   );
 }

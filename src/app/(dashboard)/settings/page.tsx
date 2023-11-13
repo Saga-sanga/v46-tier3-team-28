@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LuImage, LuTrash2 } from 'react-icons/lu';
+import { IoImageOutline } from 'react-icons/io5';
 
-function page() {
+export default function Page() {
   const handleUpdateProfile = () => {};
 
   return (
@@ -24,7 +25,7 @@ function page() {
                   htmlFor="image"
                   className="flex flex-col gap-2 cursor-pointer aspect-square bg-primary/10 items-center justify-center rounded-lg h-48 my-1"
                 >
-                  <LuImage className="w-10 h-10 text-primary" />
+                  <IoImageOutline className="w-10 h-10 text-primary" />
                   <p className="text-center font-extralight text-primary">+ Upload Image</p>
                   <Input id="image" name="image" className="hidden" type="file" />
                 </Label>
@@ -75,5 +76,3 @@ function page() {
     </div>
   );
 }
-
-export default page;
