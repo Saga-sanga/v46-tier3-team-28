@@ -17,6 +17,8 @@
   "dependencies": {
     "@auth/core": "^0.16.1",
     "@auth/drizzle-adapter": "^0.3.3",
+    "@aws-sdk/client-s3": "^3.450.0",
+    "@aws-sdk/s3-request-presigner": "^3.450.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
