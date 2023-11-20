@@ -8,9 +8,13 @@ export default function LoadingPage() {
           <h1 className="font-bold text-4xl">Settings</h1>
           <p className="text-lg text-muted-foreground">Manage settings for your Page Pocket profile.</p>
         </div>
-        <Skeleton className="w-full h-[200px]" />
+        <div className="mt-10">
+          <div className="px-10 pb-10 flex flex-col gap-6">
+            <Skeleton className="w-full h-[200px]" />
+            <Skeleton className="w-full h-[76px] max-w-screen-xl" />
+          </div>
+        </div>
       </div>
-      <Skeleton className="w-full h-[76px]" />
     </div>
   );
 }

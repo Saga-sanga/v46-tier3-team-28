@@ -44,7 +44,7 @@ export async function grenerateUploadURL(fileName: string) {
   const command = new PutObjectCommand(params);
 
   try {
-    const signedUrl = await getSignedUrl(client, command, { expiresIn: 120 });
+    const signedUrl = await getSignedUrl(client, command, { expiresIn: 60 * 60 * 12});
     return signedUrl;
   } catch (err) {
     throw new Error('Failed to fetch Signed URL');
