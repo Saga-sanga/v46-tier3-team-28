@@ -42,6 +42,8 @@ export function UserForm({ user, className, ...props }: UserFormProps) {
     e.preventDefault();
     setLoading(true);
 
+    // Find logic to update image only if it has been changed
+
     // get preSignedURL
     const res = await fetch(`/api/preSignedUrl?fileName=${image?.name}`);
     const data = (await res.json()) as { url: string };
