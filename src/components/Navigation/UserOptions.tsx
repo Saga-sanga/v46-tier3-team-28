@@ -22,7 +22,7 @@ export function UserOptions({ session }: { session: Session }) {
           <AvatarFallback>{nameToInitials(session.user.name ?? '')}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="p-2" align="end">
+      <DropdownMenuContent className="p-2 w-64" align="end">
         <DropdownMenuLabel>
           <p className="truncate">{session.user.name}</p>
           <p className="truncate text-sm font-normal text-muted-foreground">{session.user.email}</p>
