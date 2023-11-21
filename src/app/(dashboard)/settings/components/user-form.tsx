@@ -36,6 +36,7 @@ export function UserForm({ user, className, ...props }: UserFormProps) {
   const [image, setImage] = useState<File>();
   const [imageURL, setImageURL] = useState(user?.image ?? undefined);
   const [name, setName] = useState<string>(user?.name ?? '');
+  const [email, setEmail] = useState<string>(user?.email ?? '');
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -82,6 +83,7 @@ export function UserForm({ user, className, ...props }: UserFormProps) {
         body: JSON.stringify({
           image: imageAddress,
           name,
+          email,
         } satisfies ProfileObject),
       });
 
@@ -185,12 +187,18 @@ export function UserForm({ user, className, ...props }: UserFormProps) {
                 </Label>{' '}
                 <Input className="bg-background" value={userData?.username ?? ''} id="username" name="username" />
               </fieldset> */}
-          {/* <fieldset className="flex gap-4 items-center">
-                <Label className="w-60 text-muted-foreground font-normal" htmlFor="email">
-                  Email
-                </Label>{' '}
-                <Input className="bg-background" id="email" name="email" />
-              </fieldset> */}
+          <fieldset className="flex gap-4 items-center">
+            <Label className="w-60 shrink-0 text-muted-foreground font-normal" htmlFor="email">
+              Email
+            </Label>{' '}
+            <Input
+              className="bg-background"
+              value={email}
+              id="email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </fieldset>
         </div>
       </div>
       <div className="border-t py-6 px-10 flex justify-end">

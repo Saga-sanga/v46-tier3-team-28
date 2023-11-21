@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { authOptions } from '../../auth/[...nextauth]/authOptions';
 import { db } from '@/db';
 import { profileUpdateSchema } from '@/lib/validators/profile';
-import { collections, items, users } from '@/db/schema';
+import { accounts, collections, items, users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
 const userRouteContextSchema = z.object({
@@ -47,9 +47,9 @@ export async function PATCH(req: Request, context: z.infer<typeof userRouteConte
     }
 
     const body = await req.json();
-    const { name, image } = profileUpdateSchema.parse(body);
+    const { name, email, image } = profileUpdateSchema.parse(body);
 
-    await db.update(users).set({ name, image }).where(eq(users.id, userId));
+    await db.update(users).set({ name, email, image }).where(eq(users.id, userId));
 
     return Response.json('Profile Updated', { status: 200 });
   } catch (error) {
@@ -82,6 +82,11 @@ export async function DELETE(req: Request, context: z.infer<typeof userRouteCont
     // delete collections then users
     await db.delete(collections).where(eq(collections.userId, userId));
     await db.delete(users).where(eq(users.id, userId));
+
+    // delete associated data on Accounts
+    await db.delete(accounts).where(eq(accounts.userId, userId));
+
+    return Response.json('Account Deleted', { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });
@@ -92,6 +97,7 @@ export async function DELETE(req: Request, context: z.infer<typeof userRouteCont
 
 async function verifyUser(userId: string) {
   const session = await getServerSession(authOptions);
+  console.log(userId, session?.user.id);
 
   if (userId !== session?.user.id || !session) {
     return false;
