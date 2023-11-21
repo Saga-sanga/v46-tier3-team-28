@@ -7,11 +7,11 @@ import React from 'react';
 const RegistrationPage = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="w-full h-fit min-h-screen flex items-center justify-start overflow-y-auto flex-col py-10 bg-gray-200">
         <RegistrationForm />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

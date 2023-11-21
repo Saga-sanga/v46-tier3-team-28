@@ -8,6 +8,7 @@ import { Logo } from '@/components/InputField/LogoSVG';
 import { LuLoader2 } from 'react-icons/lu';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { MainLogo } from '../icons';
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -15,9 +16,9 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={validateLogin} className="h-fit w-fit bg-transparent dark:bg-black">
-      <div className="w-full h-fit flex flex-col justify-center items-center pb-10">
-        <Logo /> {/* SVG Component */}
-      </div>
+      <Link href="/" className="w-full h-fit flex flex-col justify-center items-center pb-10">
+        <MainLogo className="w-12 h-12" /> {/* SVG Component */}
+      </Link>
 
       <fieldset className="flex flex-col gap-10 w-screen md:w-[476px] lg:w-[476px] xl:w-[476px] p-[5%] md:p-10 lg:p-10 xl:p-10 white rounded-lg bg-white">
         <div className="flex flex-col gap-2">
@@ -46,7 +47,7 @@ const LoginForm = () => {
         />
 
         <p className="w-full flex flex-row justify-end cursor-pointer">Forgot password?</p>
-        <Button className="bg-[#633CFF] hover:bg-[#633CFF]-80 text-base h-12" type="submit" disabled={loading}>
+        <Button className="text-base h-14" type="submit" disabled={loading}>
           {loading && <LuLoader2 className="animate-spin mr-2" />}
           Login
         </Button>
@@ -58,7 +59,7 @@ const LoginForm = () => {
         <OAuthButtons loading={loading} setLoading={setLoading} />
         <p className="text-[#737373] text-center">
           Don't have an account?{' '}
-          <Link className="text-[#633CFF]" href="/register">
+          <Link className="text-primary" href="/register">
             Create one
           </Link>
         </p>
