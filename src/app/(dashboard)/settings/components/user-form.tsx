@@ -2,14 +2,14 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { useSession } from 'next-auth/react';
-import { redirect, useRouter } from 'next/navigation';
+import { profileUpdateSchema } from '@/lib/validators/profile';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IoImageOutline } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
 export type User =
   | {
@@ -27,6 +27,8 @@ interface UserFormProps extends React.HTMLAttributes<HTMLFormElement> {
   user: User;
 }
 
+type ProfileObject = z.infer<typeof profileUpdateSchema>;
+
 // use React hook form
 // TODO: refactor code to use prop data
 
@@ -39,41 +41,65 @@ export function UserForm({ user, className, ...props }: UserFormProps) {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+    try {
+      e.preventDefault();
+      setLoading(true);
+      let imageAddress = user?.image ?? undefined;
+      // Find logic to update image only if it has been changed
 
-    // Find logic to update image only if it has been changed
+      if (image) {
+        // get preSignedURL
+        const presignedResponse = await fetch(`/api/preSignedUrl?fileName=${image?.name}`);
+        const data = (await presignedResponse.json()) as { url: string };
 
-    // get preSignedURL
-    const res = await fetch(`/api/preSignedUrl?fileName=${image?.name}`);
-    const data = (await res.json()) as { url: string };
-    const imageBucketLink = data.url.split('?')[0];
+        // Upload image to S3 bucket
+        const s3Response = await fetch(data.url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': image.type,
+          },
+          body: image,
+        });
+        console.log(s3Response);
 
-    // Update profile data
+        if (!s3Response.ok) {
+          setLoading(false);
+          toast.error('Failed to upload image. Please try again.');
+          return;
+        }
 
-    router.refresh();
+        if (s3Response.ok) {
+          imageAddress = data.url.split('?')[0];
+        }
+      }
+
+      // Update profile data
+      const res = await fetch(`/api/profile/${user?.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image: imageAddress,
+          name,
+        } satisfies ProfileObject),
+      });
+
+      if (!res.ok) {
+        setLoading(false);
+        toast.error('Error updating server. Please try again!');
+      }
+
+      if (res.ok) {
+        router.refresh();
+        toast.success('Profile updated successfully!');
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error('Server Error! Please try again');
+    }
   };
-
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       setFetching(true);
-  //       const res = await fetch(`/api/profile/${data?.user.id}`);
-  //       const user = (await res.json()) as User;
-
-  //       if (user) {
-  //         console.log({ user });
-  //         setUserData(user);
-  //         setImageURL(user?.image);
-  //         setFetching(false);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, []);
 
   useEffect(() => {
     setImageError(false);
